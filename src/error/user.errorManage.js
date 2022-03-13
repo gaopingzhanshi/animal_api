@@ -39,4 +39,19 @@ module.exports = {
     message: "token错误！",
     result: "",
   },
+  hasNotAdminPermissionError: {
+    code: "10009",
+    message: "不是管理员",
+    result: "",
+  },
+  fileTypesError: {
+    code: "10010",
+    message: "文件上传格式错误",
+    result: "",
+  },
+  aniMessageError: {
+    code: "10011",
+    message: "动物信息发布有错误",
+    result: "",
+  },
 };

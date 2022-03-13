@@ -5,11 +5,13 @@ const {
   createUserInfo,
   queryUser,
   updateUserpwd,
+  searchUserRequst,
 } = require("../service/user.service");
 const { registerError } = require("../error/user.errorManage");
 const { JWT_SECRET } = require("../config/config.defult");
 
 class userController {
+  // 用户注册
   async register(ctx, next) {
     // 获取数据
     const { user_name, password } = ctx.request.body;
@@ -32,6 +34,8 @@ class userController {
       ctx.app.emit("error", registerError, ctx);
     }
   }
+
+  // 用户登录
   async login(ctx) {
     const { user_name } = ctx.request.body;
     try {
@@ -47,6 +51,8 @@ class userController {
       console.error("用户登录失败");
     }
   }
+
+  //修改密码
   async modify(ctx) {
     try {
       const id = ctx.state.user.id;
@@ -57,6 +63,23 @@ class userController {
           code: "0",
           message: "修改成功~",
           result: {},
+        };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // 查询用户
+  async searchUser(ctx) {
+    try {
+      // const {}=ctx.request.body
+      const res = await searchUserRequst();
+      if (res) {
+        ctx.body = {
+          code: "0",
+          message: "查询成功~",
+          result: res,
         };
       }
     } catch (error) {

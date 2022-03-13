@@ -35,5 +35,11 @@ class UserService {
     });
     return res[0] > 0 ? true : false;
   }
+
+  // 查询用户
+  async searchUserRequst() {
+    const res = await User.findAll();
+    return res ? res : null;
+  }
 }
 module.exports = new UserService();

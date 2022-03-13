@@ -68,8 +68,11 @@ const verifyLogin = async (ctx, next) => {
 
     // 密码是否匹配
     if (!bcrypt.compareSync(password, res.password)) {
-      console.error("用户密码错误", { user_name });
       ctx.app.emit("error", passwordError, ctx);
+      console.error("用户密码错误", { user_name });
+      ctx.body = {
+        message: "密码错误！",
+      };
       return;
     }
   } catch (error) {
@@ -80,7 +83,7 @@ const verifyLogin = async (ctx, next) => {
   await next();
 };
 
-// 判断用户是否有授权jwt
+// 判断用户是否有授权jwt,验证登录状态
 const auth = async (ctx, next) => {
   const { authorization } = ctx.request.header;
   const token = authorization.replace("Bearer ", "");
@@ -92,9 +95,11 @@ const auth = async (ctx, next) => {
     switch (error.name) {
       case "TokenExpiredError":
         ctx.app.emit("error", TokenExpiredError, ctx);
+        console.log("请求过期");
         return;
       case "JsonWebTokenError":
         console.error(ctx);
+        console.log("token错误");
         ctx.app.emit("error", JsonWebTokenError, ctx);
         return;
     }

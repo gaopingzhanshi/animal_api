@@ -1,6 +1,6 @@
 const Router = require("koa-router");
 
-const { register, login, modify } = require("../controller/user.controller");
+const { register, login, modify, searchUser } = require("../controller/user.controller");
 const {
   userValidator,
   verifyUser,
@@ -17,5 +17,6 @@ router.post("/", userValidator, verifyUser, encryption, register);
 router.post("/login", userValidator, verifyLogin, login);
 // 修改密码
 router.patch("/", auth, encryption, modify);
-
+// 查询用户
+router.get("/search", searchUser);
 module.exports = router;
